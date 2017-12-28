@@ -137,17 +137,20 @@ export default class SectionsContainer extends React.Component {
     }
 
     _handleMouseWheel(event) {
-        const e = window.event || event; // old IE support
-        const delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-        const activeSection = this.state.activeSection - delta;
+        if(this.props.allowScrolling) {
+            const e = window.event || event; // old IE support
+            const delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+            const activeSection = this.state.activeSection - delta;
 
-        if (this.state.scrollingStarted || activeSection < 0 || this._childrenLength === activeSection) {
-            return false;
+            if (this.state.scrollingStarted || activeSection < 0 || this._childrenLength === activeSection) {
+                return false;
+            }
+
+            this._setAnchor(activeSection);
+            this._handleSectionTransition(activeSection);
+            this._addActiveClass();
         }
-
-        this._setAnchor(activeSection);
-        this._handleSectionTransition(activeSection);
-        this._addActiveClass();
+        
     }
 
     _handleResize() {
@@ -295,7 +298,7 @@ export default class SectionsContainer extends React.Component {
             zIndex: '10',
             right: '20px',
             top: '50%',
-            transform: 'translate(-50%, -50%)',
+            transform: 'translate3d(-50%, -50%)',
         };
 
         const anchors = this.props.anchors.map((link, index) => {
@@ -306,7 +309,7 @@ export default class SectionsContainer extends React.Component {
                 backgroundColor: '#556270',
                 padding: '5px',
                 transition: 'all 0.2s',
-                transform: this.state.activeSection === index ? 'scale(1.3)' : 'none'
+                transform: this.state.activeSection === index ? 'scale3d(1.3,1.3,1)' : 'none'
             };
 
             return (
@@ -350,6 +353,7 @@ SectionsContainer.defaultProps = {
     navigation: true,
     className: 'SectionContainer',
     sectionClassName: 'Section',
+    allowScrolling: true,
     anchors: [],
     activeClass: 'active',
     sectionPaddingTop: '0',
@@ -367,6 +371,7 @@ SectionsContainer.propTypes = {
     navigation: React.PropTypes.bool,
     className: React.PropTypes.string,
     sectionClassName: React.PropTypes.string,
+    allowScrolling: React.PropTypes.bool,
     navigationClass: React.PropTypes.string,
     navigationAnchorClass: React.PropTypes.string,
     activeClass: React.PropTypes.string,
