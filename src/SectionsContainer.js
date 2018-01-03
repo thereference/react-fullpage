@@ -266,10 +266,12 @@ export default class SectionsContainer extends React.Component {
     }
 
     _setAnchor(index) {
-        const hash = this.props.anchors[index];
+        if(this.props.allowAnchors) {
+            const hash = this.props.anchors[index];
 
-        if (!this.props.anchors.length || hash) {
-            window.location.hash = '#' + hash;
+            if (!this.props.anchors.length || hash) {
+                window.location.hash = '#' + hash;
+            }
         }
     }
 

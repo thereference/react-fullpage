@@ -314,10 +314,12 @@ var SectionsContainer = function (_React$Component) {
     }, {
         key: '_setAnchor',
         value: function _setAnchor(index) {
-            var hash = this.props.anchors[index];
+            if (this.props.allowAnchors) {
+                var hash = this.props.anchors[index];
 
-            if (!this.props.anchors.length || hash) {
-                window.location.hash = '#' + hash;
+                if (!this.props.anchors.length || hash) {
+                    window.location.hash = '#' + hash;
+                }
             }
         }
     }, {
