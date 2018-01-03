@@ -253,13 +253,16 @@ export default class SectionsContainer extends React.Component {
   }
 
     _handleAnchor() {
-        const hash = window.location.hash.substring(1);
-        const activeSection = this.props.anchors.indexOf(hash);
+        if(this.props.allowAnchors) {
+            const hash = window.location.hash.substring(1);
+            const activeSection = this.props.anchors.indexOf(hash);
 
-        if (this.state.activeSection !== activeSection) {
-            this._handleSectionTransition(activeSection);
-            this._addActiveClass();
+            if (this.state.activeSection !== activeSection) {
+                this._handleSectionTransition(activeSection);
+                this._addActiveClass();
+            }
         }
+        
     }
 
     _setAnchor(index) {
@@ -354,6 +357,7 @@ SectionsContainer.defaultProps = {
     className: 'SectionContainer',
     sectionClassName: 'Section',
     allowScrolling: true,
+    allowAnchors: true,
     anchors: [],
     activeClass: 'active',
     sectionPaddingTop: '0',
@@ -372,6 +376,7 @@ SectionsContainer.propTypes = {
     className: React.PropTypes.string,
     sectionClassName: React.PropTypes.string,
     allowScrolling: React.PropTypes.bool,
+    allowAnchors: React.PropTypes.bool,
     navigationClass: React.PropTypes.string,
     navigationAnchorClass: React.PropTypes.string,
     activeClass: React.PropTypes.string,
